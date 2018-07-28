@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Item</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+    <style>
+      .navbar a{
+        display: inline !important;
+        font-size: 25px;
+        margin: 4px;
+      }
+
+    
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark relative-top bg-dark flex-md-nowrap p-1 shadow">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a  class="nav-link" href="{% url 'additems:home'%}">Home</a> 
+          <a  class="nav-link" href="{% url 'validation:logout'%}">Logout</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="ml-3 mt-3">
+      <h1>Create a New Wish List Item</h1>
+    </div>
+    <div class="">
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="alert alert-danger" role="alert"{% endif %}>{{message}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <form class="ml-3 mt-3" action="{% url 'additems:addItem' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="user_id" value="{{request.session.user}}">
+      <label for="new_item">Item Name: </label><input type="text" name="new_item" value="">
+      <input type="submit" name="submit" value="Add">
+    </form>
+  </body>
+</html>

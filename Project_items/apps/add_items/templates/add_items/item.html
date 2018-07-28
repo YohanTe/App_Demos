@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Wish List Item</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+    <style>
+      .navbar a{
+        display: inline !important;
+        font-size: 25px;
+        margin: 4px;
+      }
+      .list-group{
+        width: 30vw;
+        margin-left: 36vw;
+      }
+      .list-group-item{
+        height: 10vh;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark relative-top bg-dark flex-md-nowrap p-1 mb-3 shadow">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a  class="nav-link" href="{% url 'additems:home'%}">Home</a> 
+          <a  class="nav-link" href="{% url 'validation:logout'%}">Logout</a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="text-center">
+      <h1>{{users.name}}</h1>
+      <h3>Users With This Item On List: </h3>
+    </div>
+    <ul class="list-group mt-5 ">
+      {% for user in users.wish_user.all %}
+      <li style="font-size: 20px;" class="list-group-item list-group-item-secondary">{{user.first_name}}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ajax Posts</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+      .panel-body {
+        height: 180px;
+        font-size: 25px;
+        overflow: auto;
+      }
+      .bg-primary {
+        padding: 10px;
+      }
+      .pushpin {
+        text-align: center;
+        position: relative;
+        top: 20px;
+        font-size: 25pt;
+        color: #2e6da4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center text-primary">My Posts</h1>
+      <div id="posts">
+      {% if posts %}
+        {% for post in posts %}
+        <div class="col-sm-4">
+          <div class="pushpin">
+            <span class="glyphicon glyphicon-pushpin"></span>
+          </div>
+          <div class="panel panel-warning panel-200">
+            <div class="panel-heading">
+              {{ post.created_at }} <a class='delete pull-right' href="/delete/{{post.id}}"><span class="glyphicon glyphicon-trash "></span></a>
+            </div>
+            <div class="panel-body">{{ post.post }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+      <form action="/newpost" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="control-label col-sm-12" for="post">Add a note:</label>
+          <div class="col-sm-12">
+            <textarea class="form-control" name="post"></textarea><br>
+          </div>
+        </div>
+        <div class="form-group col-sm-8 text-center">
+          <label for="submitpost" class="btn btn-primary col-sm-offset-5 col-sm-3">Post It</label>
+          <input id="submitpost" type="submit" value="Post It!" class="hidden">
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    $('form').submit(function(e){
+      e.preventDefault()
+      $.ajax({
+        url: '/newpost',
+        method: 'post',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+           $('#posts').html(serverResponse)
+        }
+      })
+      $(this).trigger('reset')
+    })
+    $(document).on('click', ".delete", function(f){
+      f.preventDefault();
+      var target = $(this).attr("href");
+      $("#posts").load(target)
+    })
+  </script>
+</html>

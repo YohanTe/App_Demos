@@ -1,0 +1,15 @@
+{% if posts %}
+  {% for post in posts %}
+  <div class="col-sm-4">
+    <div class="pushpin">
+      <span class="glyphicon glyphicon-pushpin"></span>
+    </div>
+    <div class="panel panel-warning panel-200">
+      <div class="panel-heading">
+        {{ post.created_at }} <a class='delete pull-right' href="/delete/{{post.id}}"><span class="glyphicon glyphicon-trash "></span></a>
+      </div>
+      <div class="panel-body">{{ post.post }}</div>
+    </div>
+  </div>
+  {% endfor %}
+{% endif %}

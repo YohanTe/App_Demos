@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login and Registration</title>
+    {% load static %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  </head>
+  <style>
+    .jumbotron{
+      background-color: rgb(75, 90, 95) ;
+      color: whitesmoke;
+    }
+    .jumbotron p{
+      font-size: 20px;
+    }
+    .messages{
+      display: inline-block;
+      margin-left: 30%;
+    }
+  </style>
+  <body>
+    <div class="jumbotron text-center ">
+      <h1>Make a Wish List</h1> 
+      <h2 class="text-info"></h2>     
+      <p>Make a list of items for shopping or other purposes.</p><p>You can also add items from other users' list into your own.</p>
+    </div>
+    <div class="messages">
+      {% if messages %}
+        <ul class="">
+          {% for message in messages %}
+            {% if 'logout' in message.tags %}
+              <div class="alert alert-success">
+                <strong>Good Bye and Thanks for visiting!!</strong> {{message}}
+              </div>
+              {%else%}
+                <li{% if message.tags %} class='alert alert-danger' role='alert' {% endif %}>{{message}}</li>
+
+            {% endif %}
+
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+    </div>
+  
+
+    <div class = "container col-sm-offset-4 col-sm-4">
+      <div class="form-horizontal">
+        <h3>Register</h3>
+        <p class="text-muted">Please register if new.</p>
+        <form class="" action="{% url 'validation:validate' 'reg' %}" method="post">
+          {% csrf_token %}
+          
+            First Name:<input class="form-control" type="text" name="first_name" value=""><br>
+            Username: <input class="form-control" type="text" name="username" value=""><br>
+            Password: <input class="form-control" type="password" name="pw" value=""><br>
+            Confirm Password:<input class="form-control" type="password" name="pwConf" value=""><br>
+            <label for="date_hired"> Date Hired :</label><input class="form-control" type="text" name="date_hired" placeholder="mm/dd/yyyy" value=""><br>
+            <input class = "btn btn-info col-sm-offset-10" type="submit" name="register" value = "Register">
+
+        </form>
+      </div>
+    <div class="form-horizontal">
+      <h3>Login</h3>
+      <p class=" text-muted"> Welcome back!</p>
+      <form class="" action="{% url 'validation:validate' 'login' %}" method="post">
+        {% csrf_token %}
+        Username: <input class = "form-control" type="text" name="username" value=""><br>
+        Password: <input class = "form-control" type="password" name="pw" value=""><br>
+
+        <input class = "btn btn-info col-sm-offset-10" type="submit" name="validate" value = "Login">
+
+      </form>
+    </div>
+    
+    </div>
+  </body>
+</html>
